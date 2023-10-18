@@ -5,9 +5,11 @@ namespace App\BaseClasses;
 use App\Models\ParserSettings;
 use App\Models\Platform;
 use GuzzleHttp\Client;
+use Illuminate\Support\Collection;
 
-class BaseParser
+abstract class BaseParser
 {
+    protected int $platformId;
     protected string $url, $whatToFind, $platform;
     protected array $config, $headers = [
 
@@ -44,7 +46,7 @@ class BaseParser
         return $config;
     }
 
-    protected function getContent(string $link): string
+    protected function fetchHtml(string $link): string
     {
         $client = new Client([
             'verify' => false,
@@ -57,14 +59,27 @@ class BaseParser
         return $content;
     }
 
-    protected function parseHtml(string $link)
+    /**
+     * @param string $link
+     * @return \Illuminate\Support\Collection
+     */
+    protected function parseHtml(string $link): Collection
     {
-        $content = $this->getContent($link);
+        $content = $this->fetchHtml($link);
+        $results = collect();
+        return $results;
     }
 
-    protected function saveResults(array $results)
+    protected function saveResults(Collection $results)
     {
 
+    }
+
+    public function startParse()
+    {
+        $html = $this->fetchHtml($this->url);
+        $parsedData = $this->parseHtml($html);
+        $this->saveResults($parsedData);
     }
 
 }
