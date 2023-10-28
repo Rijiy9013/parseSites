@@ -28,6 +28,6 @@ class EbayParseJob implements ShouldQueue
      */
     public function handle(): void
     {
-
+        $this->parser->startParse(false);
     }
 }

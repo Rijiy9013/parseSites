@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\EbayParseJob;
 use App\Parsers\EbayParser;
 use GuzzleHttp\Client;
 use Illuminate\Routing\Controller as BaseController;
@@ -20,9 +21,7 @@ class Controller extends BaseController
             "link" => "div.s-item__info.clearfix a.s-item__link",
         ];
         $ebayParser = new EbayParser($link, $name, $config);
-        $ebayParser->startParse();
-//        $link = 'https://aliexpress.ru/wholesale?SearchText=ek+1100';
-//        $link = 'https://www.avito.ru/all?q=ek1100';
+        EbayParseJob::dispatch($ebayParser)->onQueue("ebay");
         $content = $this->req($link);
         $this->parseHtml($content, $link);
     }

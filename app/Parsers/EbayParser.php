@@ -3,13 +3,13 @@
 namespace App\Parsers;
 
 use App\BaseClasses\BaseParser;
+use App\Jobs\EbayParseJob;
 
 class EbayParser extends BaseParser
 {
-    public function startParse()
+    public function startParse(bool $withJob = true)
     {
-//        $content = $this->fetchHtml();
         $results = $this->parseHtml();
-        dd($results);
+//        $this->saveResults($results);
     }
 }
