@@ -39,7 +39,7 @@ abstract class BaseParser
         }
     }
 
-    protected function getConfigByPlatformId(int $id)
+    protected function getConfigByPlatformId(int $id): array
     {
         try {
             $config = ParserSettings::where('platform_id', $id)->first();
@@ -64,7 +64,6 @@ abstract class BaseParser
     }
 
     /**
-     * @param string $link
      * @return \Illuminate\Support\Collection
      */
     protected function parseHtml(): Collection
@@ -105,7 +104,7 @@ abstract class BaseParser
         return true;
     }
 
-    protected function saveResults(Collection $results)
+    protected function saveResults(Collection $results): void
     {
         foreach ($results as $result) {
             try {
