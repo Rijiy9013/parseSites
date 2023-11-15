@@ -13,16 +13,18 @@ return new class extends Migration
     {
         Schema::create('parser_settings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('platform_id');
-            $table->foreign('platform_id')->references('id')->on('platforms');
+            $table->foreignId('platform_id')->constrained();
             $table->text("name");
             $table->text("price");
+            $table->text("shipping_price")->nullable();
             $table->text("link");
             $table->text("country")->nullable();
+            $table->text("city")->nullable();
             $table->text("shipping_price")->nullable();
             $table->text("image")->nullable();
             $table->text("description")->nullable();
             $table->text("pagination")->nullable();
+            $table->integer("count")->nullable();
             $table->timestamps();
         });
     }

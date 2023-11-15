@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('results', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('task_id');
-            $table->foreign('task_id')->references('id')->on('tasks');
-            $table->unsignedBigInteger('state_id');
-            $table->foreign('state_id')->references('id')->on('states');
-            $table->unsignedBigInteger('platform_id');
-            $table->foreign('platform_id')->references('id')->on('platforms');
-            $table->unsignedBigInteger('country_id');
-            $table->foreign('country_id')->references('id')->on('countries');
-
+            $table->foreignId('task_id')->constrained();
+            $table->foreignId('state_id')->constrained();
+            $table->foreignId('platform_id')->constrained();
+            $table->foreignId('country_id')->nullable()->constrained();
             $table->string('name');
+            $table->decimal('price', 10, 2);
+            $table->text('link');
+            $table->text('photo')->nullable();
+            $table->string('city')->nullable();
+            $table->text('description')->nullable();
+            $table->json('additional_info')->nullable();
             $table->timestamps();
         });
     }
